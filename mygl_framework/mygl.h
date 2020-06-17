@@ -17,12 +17,15 @@ typedef struct pixel {
     color_t color;
 } pixel_t;
 
+void pixelInit(pixel_t *, int, int, color_t);
+
 
 // Declaração da função que chamará as funções implementadas pelo aluno
 void MyGlDraw(void);
 
 void putPixel(pixel_t);
-// void drawTriangle(pixel_t, pixel_t, pixel_t);
+void drawLine(pixel_t, pixel_t);
+void drawTriangle(pixel_t, pixel_t, pixel_t);
 
 
 #endif  // MYGL_H
