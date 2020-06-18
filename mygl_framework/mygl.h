@@ -1,14 +1,17 @@
 #ifndef MYGL_H
 #define MYGL_H
 
+#define SWAP(T, a, b) do { T tmp = a; a = b; b = tmp; } while (0)
+
+#include <stdlib.h>
 #include "core.h"
 #include "frame_buffer.h"
 
 typedef struct {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
-    unsigned char alpha;
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+    unsigned char a;
 } color_t;
 
 typedef struct pixel {
@@ -17,7 +20,10 @@ typedef struct pixel {
     color_t color;
 } pixel_t;
 
-void pixelInit(pixel_t *, int, int, color_t);
+void    pixelInit(pixel_t *, int, int, color_t);
+int     inc(int);
+int     compare(color_t, color_t);
+color_t interpolate(color_t, color_t);
 
 
 // Declaração da função que chamará as funções implementadas pelo aluno
