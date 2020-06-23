@@ -66,16 +66,14 @@ int incX = inc(b.x - a.x),
 ```
 
 #### Interpolação de Cores
-Para a interpolação adotamos uma abordagem simples. Consiste basicamente na comporação de duas distâncias (Distância Parcial e Distância Total). Essa comparação se dá através de uma divisão simples, seguida de uma multiplicação por um fator que indicará a porcentagem de cor presente naquele pixel. De acordo com que o pixel a ser desenhado for mudando de posição a cor também mudará pois a distância não será mais a mesma.
+Para a interpolação adotamos uma abordagem simples. Consiste basicamente na comparação de duas distâncias (Distância Parcial e Distância Total). Essa comparação se dá através de uma divisão simples, seguida de uma multiplicação por um fator que indicará a porcentagem de cor presente naquele pixel. De acordo com que o pixel a ser desenhado for mudando de posição a cor também mudará pois a distância não será mais a mesma.<br />
 
--Distância Parcial: Distância entre o pixel atual e o pixel final.
--Distância Total: Distância entre o primeiro pixel desenhado e o último pixel.
+-Distância Parcial: Distância entre o pixel atual e o pixel final.<br />
+-Distância Total: Distância entre o primeiro pixel desenhado e o último pixel.<br />
 
-Essa estratégia será realizada para as 3 linhas com combinações de cores diferentes. As combinações ficarão da seguinte maneira:
+Essa estratégia será realizada para as 3 linhas com combinações de cores diferentes. As combinações ficarão da seguinte maneira:<br />
 
-Linha 1: Vermelho e Azul (R&B)
-Linha 1: Vermelho e Verde (R&G)
-Linha 1: Verde e Azul (G&B)
+Linha 1: Vermelho e Azul (R&B)<br />Linha 2: Vermelho e Verde (R&G)<br />Linha 3: Verde e Azul (G&B)
 
 ```C
 color_t interpolate(pixel_t iP, pixel_t mP, pixel_t fP) {
