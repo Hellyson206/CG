@@ -4,6 +4,7 @@
 #define SWAP(T, a, b) do { T tmp = a; a = b; b = tmp; } while (0)
 
 #include <stdlib.h>
+#include <math.h>
 #include "core.h"
 #include "frame_buffer.h"
 
@@ -22,8 +23,8 @@ typedef struct pixel {
 
 void    pixelInit(pixel_t *, int, int, color_t);
 int     inc(int);
-int     compare(color_t, color_t);
-color_t interpolate(color_t, color_t);
+double  dist(pixel_t, pixel_t);
+color_t interpolate(pixel_t, pixel_t, pixel_t);
 
 
 // Declaração da função que chamará as funções implementadas pelo aluno

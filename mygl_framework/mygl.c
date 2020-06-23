@@ -19,38 +19,19 @@ int inc(int a) {
     return x;
 }
 
-int compare(color_t a, color_t b) {
-    if(a.r == b.r && a.g == b.g && 
-       a.b == b.b && a.a == b.a)
-        return 1;
-    else
-        return 0;
+double dist(pixel_t a, pixel_t b) {
+    return sqrt(pow(b.x-a.x, 2) + pow(b.y-a.y, 2));
 }
 
-color_t interpolate(color_t a, color_t b) {
-    if(!compare(a, b)) {
-        if(a.r > b.r)
-            a.r--;
-        else if(a.r < b.r)
-            a.r++;
-
-        if(a.g > b.g)
-            a.g--;
-        else if(a.g < b.g)
-            a.g++;
-        
-        if(a.b > b.b)
-            a.b--;
-        else if(a.b < b.b)
-            a.b++;
-        
-        if(a.a > b.a)
-            a.a--;
-        else if(a.a < b.a)
-            a.a++;
-    }
+color_t interpolate(pixel_t iP, pixel_t mP, pixel_t fP) {
+    double p = dist(mP, fP)/dist(iP, fP);
     
-    return a;
+    color_t newColor = {p*iP.color.r + (1-p)*fP.color.r,
+                        p*iP.color.g + (1-p)*fP.color.g,
+                        p*iP.color.b + (1-p)*fP.color.b,
+                        p*iP.color.a + (1-p)*fP.color.a};
+    
+    return newColor;
 }
 
 void putPixel(pixel_t pixel) {
@@ -104,7 +85,7 @@ void drawLine(pixel_t a, pixel_t b) {
             d += 2*(dy - dx);
         }
         
-        pixelInit(&p, x, y, interpolate(p.color, b.color));
+        pixelInit(&p, x, y, interpolate(a, p, b));
     }
     
     putPixel(b);
