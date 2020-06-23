@@ -66,7 +66,16 @@ int incX = inc(b.x - a.x),
 ```
 
 #### Interpolação de Cores
-Para a interpolação adotei uma abordagem simples mas não muito precisa. Consistem em comparar cada componente RGBA do pixel atual com sua respectiva no pixel final. Decrementa para quando a componente atual for menor do que a final, e incrementa no caso contrário. Assim garante que a cor do pixel atual se aproxime gradativamente da cor do pixel final.
+Para a interpolação adotamos uma abordagem simples. Consiste basicamente na comporação de duas distâncias (Distância Parcial e Distância Total). Essa comparação se dá através de uma divisão simples, seguida de uma multiplicação por um fator que indicará a porcentagem de cor presente naquele pixel. De acordo com que o pixel a ser desenhado for mudando de posição a cor também mudará pois a distância não será mais a mesma.
+
+-Distância Parcial: Distância entre o pixel atual e o pixel final.
+-Distância Total: Distância entre o primeiro pixel desenhado e o último pixel.
+
+Essa estratégia será realizada para as 3 linhas com combinações de cores diferentes. As combinações ficarão da seguinte maneira:
+
+Linha 1: Vermelho e Azul (R&B)
+Linha 1: Vermelho e Verde (R&G)
+Linha 1: Verde e Azul (G&B)
 
 ```C
 color_t interpolate(pixel_t iP, pixel_t mP, pixel_t fP) {
