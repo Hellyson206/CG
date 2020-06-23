@@ -2,7 +2,7 @@
 
 ## Introdução
 
-O trabalho tem como objetivo rasterizar linhas através da implementação do algoritmo de Bresenham, utilizando o framework que simula acesso direto à memória de vídeo, este disponibilizado pelo Prof. Dr. Christian Azambuja Pagot.
+O trabalho tem como objetivo rasterizar linhas através da implementação do algoritmo de Bresenham, utilizando o framework que simula acesso direto à memória de vídeo, disponibilizado pelo Prof. Dr. Christian Azambuja Pagot.
 
 Para o entendimento do trabalho, é necessário saber que os monitores possuem uma matriz de pixels, onde a origem é localizada no canto superior esquerdo. Cada Pixel possui 4 componentes R(vermelho), G(verde), B(azul) e A(opacidade) onde se tem 1 byte dedicado para cada componente.
 
