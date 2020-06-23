@@ -108,7 +108,7 @@ void drawTriangle(pixel_t p1, pixel_t p2, pixel_t p3) {
 }
 ```
 
-![Triangle](https://rennanweslley.github.io/images/Triangle.png)
+![Triangle](https://github.com/Shanksir/CG/Rasterization/images/Triangle.png)
 
 
 ## Referências
