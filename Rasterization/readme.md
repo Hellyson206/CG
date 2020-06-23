@@ -6,7 +6,7 @@ O trabalho tem como objetivo rasterizar linhas através da implementação do al
 
 Para o entendimento do trabalho, é necessário saber que os monitores possuem uma matriz de pixels, onde a origem é localizada no canto superior esquerdo. Cada Pixel possui 4 componentes R(vermelho), G(verde), B(azul) e A(opacidade) onde se tem 1 byte dedicado para cada componente.
 
-![Screen](https://rennanweslley.github.io/images/monitor1.png)
+![Screen](https://github.com/Shanksir/CG/blob/master/Rasterization/images/monitor1.png)
 
 Para conseguir a posição do primeiro byte de um determinado pixel na matriz, usa-se a fórmula:
 **`4*X + 4*Y*W`**, onde **W** é a largura da tela.
@@ -31,7 +31,7 @@ void putPixel(pixel_t pixel) {
 }
 ```
 
-![putPixel](https://rennanweslley.github.io/images/putPixel.png)
+![putPixel](https://github.com/Shanksir/CG/blob/master/Rasterization/images/putPixel.png)
 
 
 ## Função drawLine()
@@ -39,11 +39,11 @@ Função que rasteriza uma linha na tela através da implementação de uma vari
 
 O algoritmo Bresenham não tem o intuito de formar uma linha perfeita, mas o mais próximo disto. De acordo com a distância do novo pixel à reta, ele decide se o próximo pixel a ser pintado será o mais ao Leste (x++, y) ou o mais ao nordeste (x++,y++).
 
-![Bresenham Line](https://rennanweslley.github.io/images/Bresenham_line.png)
+![Bresenham Line](https://github.com/Shanksir/CG/blob/master/Rasterization/images/Bresenham_line.png)
 
 Porém o algoritmo só funciona para retas que estejam no 1º octante, e é preciso generalizar para todos os outros. Caso o coeficiente angular da reta seja maior que 1, inverte-se os valores de **X** e **Y**. O incremento do X e do Y varia de acordo com o octante em que a linha se encontra.
 
-![Bresenham Diagram](https://rennanweslley.github.io/images/bresenhamGen.png)
+![Bresenham Diagram](https://github.com/Shanksir/CG/blob/master/Rasterization/images/bresenhamGen.png)
 
 Para isso, foi definida a função **inc()** para retornar o incremento do x e do y.
 
@@ -94,7 +94,7 @@ color_t interpolate(pixel_t iP, pixel_t mP, pixel_t fP) {
 ```
 Onde iP é o pixel incial da reta, mP é pixel atual a ser rasterizado e fP é o pixel final da reta. O fator de porcentagem **p** será gerado pela distância parcial (distância entre mP e fP) dividida pela distância total (distância entre iP e fP). Para gerar a cor do pixel atual, é realizado o cálculo: **`p*iP.color + (1-p)*fP.color`** para todas as componentes RGBA.
 
-![Interpolate](https://rennanweslley.github.io/images/Interpolate.png)
+![Interpolate](https://github.com/Shanksir/CG/blob/master/Rasterization/images/Interpolate.png)
 
 
 ## Função drawTriangle()
