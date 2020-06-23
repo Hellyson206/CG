@@ -11,14 +11,14 @@ Para o entendimento do trabalho, é necessário saber que os monitores possuem u
 Para conseguir a posição do primeiro byte de um determinado pixel na matriz, usa-se a fórmula:
 **`4*X + 4*Y*W`**, onde **W** é a largura da tela.
 
-Três principais funções foram desenvolvidas:
+Três principais funções foram implementadas:
 - putPixel(): Que rasteriza um ponto na tela
 - drawLine(): Que rasteriza uma linha de um ponto à outro
 - drawTriangle(): Que raseteriza um triângulo através de três vértices
 
 
 ## Função putPixel()
-A função putPixel() tem um proposta simples, recebe um pixel como parâmetro e o rasteriza na tela utilizando o fb_ptr que aponta para a coordenada (0,0) do nosso "framebuffer". Utilizando da fórmula citada acima, dá para determinar a localização do pixel na matriz e em seguida basta setar os seus valores RGBA.
+A função putPixel() tem um proposta simples, recebe um pixel como parâmetro e o rasteriza na tela utilizando o fb_ptr que aponta para a coordenada (0,0) do nosso "framebuffer". Utilizando-se da fórmula citada acima, dá para determinar a localização do pixel na tela e em seguida basta setar os seus valores RGBA.
 
 ```C
 void putPixel(pixel_t pixel) {
@@ -66,14 +66,19 @@ int incX = inc(b.x - a.x),
 ```
 
 #### Interpolação de Cores
-Para a interpolação adotamos uma abordagem simples. Consiste basicamente na comparação de duas distâncias (Distância Parcial e Distância Total). Essa comparação se dá através de uma divisão simples, seguida de uma multiplicação por um fator que indicará a porcentagem de cor presente naquele pixel. De acordo com que o pixel a ser desenhado for mudando de posição a cor também mudará pois a distância não será mais a mesma.<br />
+Para a interpolação adotamos uma abordagem simples. Consiste na comparação de duas distâncias (parcial e total). Essa comparação se dá através de uma divisão simples que gera um fator de porcentagem que indica o quão próximo o pixel atual está do pixel final. A medida em que o pixel atual for se aproximando do final, o valor do fator de porcentagem também será diferente, o que influenciará diretamente na nova cor a ser gerada, fazendo com que a mesma se aproxime gradativamente da cor do pixel final.
 
--Distância Parcial: Distância entre o pixel atual e o pixel final.<br />
--Distância Total: Distância entre o primeiro pixel desenhado e o último pixel.<br />
+Para o cálculo da distância foi definida a função **dist()**:
 
-Essa estratégia será realizada para as 3 linhas com combinações de cores diferentes. As combinações ficarão da seguinte maneira:<br />
+```C
+double dist(pixel_t a, pixel_t b) {
+    return sqrt(pow(b.x-a.x, 2) + pow(b.y-a.y, 2));
+}
+```
 
-Linha 1: Vermelho e Azul (R&B)<br />Linha 2: Vermelho e Verde (R&G)<br />Linha 3: Verde e Azul (G&B)
+Onde **sqrt()** e **pow(value, exp)** são funções da biblioteca **math.h**. A função sqrt() calcula a raiz quadrada e a função pow() calcula um valor elevado à um expoente que é passado por parâmetro.
+
+A interpolação das cores acontece na função **interpolate()**:
 
 ```C
 color_t interpolate(pixel_t iP, pixel_t mP, pixel_t fP) {
@@ -87,6 +92,7 @@ color_t interpolate(pixel_t iP, pixel_t mP, pixel_t fP) {
     return newColor;
 }
 ```
+Onde iP é o pixel incial da reta, mP é pixel atual a ser rasterizado e fP é o pixel final da reta. O fator de porcentagem **p** será gerado pela distância parcial (distância entre mP e fP) dividida pela distância total (distância entre iP e fP). Para gerar a cor do pixel atual, é realizado o cálculo: **`p*iP.color + (1-p)*fP.color`** para todas as componentes RGBA.
 
 ![Interpolate](https://rennanweslley.github.io/images/Interpolate.png)
 
