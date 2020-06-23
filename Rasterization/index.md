@@ -2,7 +2,7 @@
 
 ## Introdução
 
-O trabalho tem como objetivo rasterizar linhas através da implementação do algoritmo de Bresenham, utilizando o framework que simula acesso direto à memória de vídeo, este disponibilizado pelo Prof. Dr. Christian Azambuja Pagot. Na minha abordagem, para simplificar o código, defini uma classe para Pixel e outra para Color.
+O trabalho tem como objetivo rasterizar linhas através da implementação do algoritmo de Bresenham, utilizando o framework que simula acesso direto à memória de vídeo, este disponibilizado pelo Prof. Dr. Christian Azambuja Pagot.
 
 Para o entendimento do trabalho, é necessário saber que os monitores possuem uma matriz de pixels, onde a origem é localizada no canto superior esquerdo. Cada Pixel possui 4 componentes R(vermelho), G(verde), B(azul) e A(opacidade) onde se tem 1 byte dedicado para cada componente.
 
@@ -18,25 +18,26 @@ Três principais funções foram desenvolvidas:
 
 
 ## Função putPixel()
-A função putPixel() tem um proposta simples, recebe um pixel como parâmetro e o rasteriza na tela utilizando o FBptr que aponta para a coordenada (0,0). Utilizando da fórmula citada acima, dá para determinar a localização do pixel na matriz e em seguida basta setar os seus valores RGBA.
+A função putPixel() tem um proposta simples, recebe um pixel como parâmetro e o rasteriza na tela utilizando o fb_ptr que aponta para a coordenada (0,0) do nosso "framebuffer". Utilizando da fórmula citada acima, dá para determinar a localização do pixel na matriz e em seguida basta setar os seus valores RGBA.
 
 ```C
-    int indx = (4*pixel.getX()) + (4*pixel.getY()*IMAGE_WIDTH);
+void putPixel(pixel_t pixel) {
+    int pos = pixel.x * 4 + pixel.y * IMAGE_WIDTH * 4;
     
-    FBptr[indx]   = pixel.getColor().getR();
-    FBptr[++indx] = pixel.getColor().getG();
-    FBptr[++indx] = pixel.getColor().getB();
-    FBptr[++indx] = pixel.getColor().getA();
+    fb_ptr[pos++] = pixel.color.r;
+    fb_ptr[pos++] = pixel.color.g;
+    fb_ptr[pos++] = pixel.color.b;
+    fb_ptr[pos]   = pixel.color.a;
+}
 ```
-
 
 ![putPixel](https://rennanweslley.github.io/images/putPixel.png)
 
 
 ## Função drawLine()
-Função que rasteriza uma linha na tela através da implementação do algoritmo de Bresenham. Recebe dois pixels como parâmetros.
+Função que rasteriza uma linha na tela através da implementação de uma variação do algoritmo de Bresenham, o algoritmo do ponto médio. Recebe dois pixels como parâmetros.
 
-O algoritmo Bresenham não tem o intuito de formar uma linha perfeita, mas o mais próximo disto. De acordo com a distância do novo pixel à reta, ele decide se incrementa, ou não, para o lado.
+O algoritmo Bresenham não tem o intuito de formar uma linha perfeita, mas o mais próximo disto. De acordo com a distância do novo pixel à reta, ele decide se o próximo pixel a ser pintado será o mais ao Leste (x++, y) ou o mais ao nordeste (x++,y++).
 
 ![Bresenham Line](https://rennanweslley.github.io/images/Bresenham_line.png)
 
@@ -44,49 +45,41 @@ Porém o algoritmo só funciona para retas que estejam no 1º octante, e é prec
 
 ![Bresenham Diagram](https://rennanweslley.github.io/images/bresenhamGen.png)
 
-Para isso, defini a função **sign()** para retornar o incremento do x e y.
+Para isso, foi definida a função **inc()** para retornar o incremento do x e do y.
 
 ```C
-int sign(int a) {
+int inc(int a) {
+    int x;
+    
     if(!a) 
-        return 0;
+        x = 0;
     else if(a < 0) 
-        return -1;
+        x = -1;
     else if(a > 0)
-        return 1;
+        x = 1;
+    
+    return x;
 }
-
-int signX = sign(end.getX() - start.getX()),
-    signY = sign(end.getY() - start.getY());
+    
+int incX = inc(b.x - a.x),
+    incY = inc(b.y - a.y);
 ```
 
 #### Interpolação de Cores
 Para a interpolação adotei uma abordagem simples mas não muito precisa. Consistem em comparar cada componente RGBA do pixel atual com sua respectiva no pixel final. Decrementa para quando a componente atual for menor do que a final, e incrementa no caso contrário. Assim garante que a cor do pixel atual se aproxime gradativamente da cor do pixel final.
 
 ```C
-if(!c1.compare(c2)) {
-    if(c1.getR() > c2.getR())
-        c1.decR();
-    else if(c1.getR() < c2.getR())
-        c1.incR();
-
-    if(c1.getG() > c2.getG())
-        c1.decG();
-    else if(c1.getG() < c2.getG())
-        c1.incG();
-
-    if(c1.getB() > c2.getB())
-        c1.decB();
-    else if(c1.getB() < c2.getB())
-        c1.incB();
-
-    if(c1.getA() > c2.getA())
-        c1.decA();
-    else if(c1.getA() < c2.getA())
-        c1.incA();
+color_t interpolate(pixel_t iP, pixel_t mP, pixel_t fP) {
+    double p = dist(mP, fP)/dist(iP, fP);
+    
+    color_t newColor = {p*iP.color.r + (1-p)*fP.color.r,
+                        p*iP.color.g + (1-p)*fP.color.g,
+                        p*iP.color.b + (1-p)*fP.color.b,
+                        p*iP.color.a + (1-p)*fP.color.a};
+    
+    return newColor;
 }
 ```
-
 
 ![Interpolate](https://rennanweslley.github.io/images/Interpolate.png)
 
@@ -95,10 +88,10 @@ if(!c1.compare(c2)) {
 A função recebe três pixels e desenha um triângulo. Basta chamar a função **drawLine()** três vezes.
 
 ```C
-void drawTriangle(Pixel p1, Pixel p2, Pixel p3) {
+void drawTriangle(pixel_t p1, pixel_t p2, pixel_t p3) {
     drawLine(p1, p2);
     drawLine(p2, p3);
-    drawLine(p1, p3);
+    drawLine(p3, p1);
 }
 ```
 
