@@ -22,12 +22,12 @@ float vertices[] = {-0.25f, -0.5f, -0.1f, 0.75f, 0.0f, 0.0f, // red triangle (cl
                     -0.75f, -0.5f, -0.4f, 0.0f, 0.0f, 0.75f, // blue triangle (farther)
                     -0.25f,  0.5f, -0.4f, 0.0f, 0.0f, 0.75f,
                      0.25f, -0.5f, -0.4f, 0.0f, 0.0f, 0.75f,
-                 	 0.25f, -0.5f, -0.8f, 0.0f, 0.75f, 0.0f, // green triangle
-                 	 0.75f,  0.5f, -0.8f, 0.0f, 0.75f, 0.0f,
-                 	 1.25f, -0.5f, -0.8f, 0.0f, 0.75f, 0.0f,
-                 	-1.75f, -0.5f, -0.6f, 0.75f, 0.57f, 0.0f,// yellow triangle
-                 	-1.25f,  0.5f, -0.6f, 0.75f, 0.57f, 0.0f,
-                 	-0.75f, -0.5f, -0.6f, 0.75f, 0.57f, 0.0f};
+                     0.25f, -0.5f, -0.8f, 0.0f, 0.75f, 0.0f, // green triangle
+                     0.75f,  0.5f, -0.8f, 0.0f, 0.75f, 0.0f,
+                     1.25f, -0.5f, -0.8f, 0.0f, 0.75f, 0.0f,
+                    -1.75f, -0.5f, -0.6f, 0.75f, 0.57f, 0.0f,// yellow triangle
+                    -1.25f,  0.5f, -0.6f, 0.75f, 0.57f, 0.0f,
+                    -0.75f, -0.5f, -0.6f, 0.75f, 0.57f, 0.0f};
 
 /*float vertices[] = {-0.25f, -0.5f, -0.1f, 0.75f, 0.0f, 0.0f, // red triangle (closer)
                      0.25f,  0.5f, -0.1f, 0.75f, 0.0f, 0.0f,
@@ -80,14 +80,14 @@ void Display(void) {
     // Matriz Model ///////////////////////////////////////////////////////////
     // You will have to change the contents of this matrix for the exercises
     float model_array[16] = {1.0f, 0.0f, 0.0f, 0.0f, 
-                        	0.0f, 1.0f, 0.0f, 0.0f, 
-                        	0.0f, 0.0f, 1.0f, 0.0f, 
-                        	0.0f, 0.0f, 0.0f, 1.0f};
+                             0.0f, 1.0f, 0.0f, 0.0f, 
+                             0.0f, 0.0f, 1.0f, 0.0f, 
+                             0.0f, 0.0f, 0.0f, 1.0f};
 
     /*float scale_array[16] = {1.0f/3.0f, 0.0f, 0.0f, 0.0f,
-                                  0.0f, 1.5f, 0.0f, 0.0f,
-                                  0.0f, 0.0f, 1.0f, 0.0f,
-                                  0.0f, 0.0f, 0.0f, 1.0f};
+                                    0.0f, 1.5f, 0.0f, 0.0f,
+                                    0.0f, 0.0f, 1.0f, 0.0f,
+                                    0.0f, 0.0f, 0.0f, 1.0f};
 
     float trans_array[16] = {1.0f, 0.0f, 0.0f, 0.0f,
                              0.0f, 1.0f, 0.0f, 0.0f,
@@ -95,28 +95,28 @@ void Display(void) {
                              1.0f, 0.0f, 0.0f, 1.0f};*/
 
     float scale_array[16] = {0.5f, 0.0f, 0.0f, 0.0f,
-							 0.0f, 0.5f, 0.0f, 0.0f,
-							 0.0f, 0.0f, 0.5f, 0.0f,
-							 0.0f, 0.0f, 0.0f, 1.0f};
+			     0.0f, 0.5f, 0.0f, 0.0f,
+			     0.0f, 0.0f, 0.5f, 0.0f,
+			     0.0f, 0.0f, 0.0f, 1.0f};
 
   	float trans_array[16] = {1.0f,  0.0f, 0.0f,  0.0f,
-  							 0.0f,  1.0f, 0.0f,  0.0f,
-  							 0.0f,  0.0f, 1.0f,  0.0f,
-  						    -0.25f, 0.5f, 0.0f,  1.0f};
+  				 0.0f,  1.0f, 0.0f,  0.0f,
+  				 0.0f,  0.0f, 1.0f,  0.0f,
+  			       -0.25f,  0.5f, 0.0f,  1.0f};
 
 	// Rotation about Z axis
 	float zangle = glm::pi<float>();
 	float rotz_array[16] = {glm::cos(zangle), glm::sin(zangle), 0.0f, 0.0f,
-							-glm::sin(zangle), glm::cos(zangle), 0.0f, 0.0f,
-							 			0.0f, 			 0.0f, 1.0f, 0.0f,
-							 			0.0f,  			 0.0f, 0.0f, 1.0f};
+			       -glm::sin(zangle), glm::cos(zangle), 0.0f, 0.0f,
+				            0.0f, 	      0.0f, 1.0f, 0.0f,
+					    0.0f,  	      0.0f, 0.0f, 1.0f};
 
     // Rotation about Y axis
 	float yangle = glm::pi<float>()/6;
 	float roty_array[16] = {glm::cos(yangle), 0.0f, -glm::sin(yangle), 0.0f,
-						                0.0f, 1.0f, 			 0.0f, 0.0f,
-						   -glm::sin(yangle), 0.0f,  glm::cos(yangle), 0.0f,
-							 			0.0f, 0.0f, 			 0.0f, 1.0f};
+			                    0.0f, 1.0f,              0.0f, 0.0f,
+			       -glm::sin(yangle), 0.0f,  glm::cos(yangle), 0.0f,
+				            0.0f, 0.0f, 	     0.0f, 1.0f};
 
 	glm::mat4 model_mat = glm::make_mat4(roty_array) * glm::make_mat4(trans_array) * glm::make_mat4(rotz_array) * glm::make_mat4(scale_array);
 
@@ -142,10 +142,10 @@ void Display(void) {
                       	  camX.z, camY.z, camZ.z, 0.0f,
                     	    0.0f,   0.0f,   0.0f, 1.0f};
 
-    float T_array[16] = {	  1.0f, 	 0.0f, 		0.0f, 0.0f,
-		                 	  0.0f, 	 1.0f, 		0.0f, 0.0f,
-		                 	  0.0f, 	 0.0f, 		1.0f, 0.0f,
-		                 -camPos.x, -camPos.y, -camPos.z, 1.0f};
+    float T_array[16] = {1.0f,      0.0f,      0.0f, 0.0f,
+		         0.0f, 	    1.0f,      0.0f, 0.0f,
+		         0.0f, 	    0.0f,      1.0f, 0.0f,
+		    -camPos.x, -camPos.y, -camPos.z, 1.0f};
 
     float view_array[16] = {1.0f, 0.0f, 0.0f, 0.0f, 
                             0.0f, 1.0f, 0.0f, 0.0f, 
