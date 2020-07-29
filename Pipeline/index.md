@@ -132,7 +132,7 @@ float Bt_array[16] = {camX.x, camY.x, camZ.x, 0.0f,
 float T_array[16] = {     1.0f,      0.0f,      0.0f, 0.0f,
                           0.0f,      1.0f,      0.0f, 0.0f,
                           0.0f,      0.0f,      1.0f, 0.0f,
-                         -camPos.x, -camPos.y, -camPos.z, 1.0f};
+                     -camPos.x, -camPos.y, -camPos.z, 1.0f};
 
 glm::mat4 view_mat = glm::make_mat4(Bt_array) * glm::make_mat4(T_array);
 ```
