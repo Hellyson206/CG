@@ -20,16 +20,13 @@ Compilando o código template disponibilizado, é exibido:
 
 ![Template](https://github.com/Shanksir/CG/blob/master/Pipeline/images/Template.png)
 
-
 ### Escala
 
 Para aplicar a escala com fatores **(x, y, z) = (1/3, 3/2, 1)**, foi utilizada a matriz:
 
 ![ScaleMatrix](https://github.com/Shanksir/CG/blob/master/Pipeline/images/ScaleMatrix.png)
 
-
 Igualando a matriz **Model** à matriz de **Escala** para aplicar as transformações nos vértices.
-
 
 ```C++
 float scale_array[16] = {1.0f/3.0f, 0.0f, 0.0f, 0.0f,
@@ -40,11 +37,9 @@ float scale_array[16] = {1.0f/3.0f, 0.0f, 0.0f, 0.0f,
 glm::mat4 model_mat = glm::make_mat4(scale_array);
 ```
 
-
 Ao executar temos o resultado:
 
 ![Scale](https://github.com/Shanksir/CG/blob/master/Pipeline/images/Scale.png)
-
 
 ### Translação
 
@@ -52,9 +47,7 @@ Para aplicar a translação com fatores **(x, y, z) = (1, 0, 0)**, foi utilizada
 
 ![TransMatrix](https://github.com/Shanksir/CG/blob/master/Pipeline/images/TransMatrix.png)
 
-
 Igualando a matriz **Model** à matriz de **Translação** para aplicar as transformações nos vértices.
-
 
 ```C++
 float trans_array[16] = {1.0f, 0.0f, 0.0f, 0.0f,
@@ -67,20 +60,15 @@ glm::mat4 model_mat = glm::make_mat4(trans_array);
 
 Ao executar temos o resultado:
 
-
 ![Trans](https://github.com/Shanksir/CG/blob/master/Pipeline/images/Trans.png)
-
 
 ### Projeção
 
 Aplicando o fator de projeção **d = 0.5** na matriz **Projection**:
 
-
 ![ProjMatrix](https://github.com/Shanksir/CG/blob/master/Pipeline/images/ProjMatrix.png)
 
-
 Igualando à matriz de **Projeção**:
-
 
 ```C++
 float proj_array[16] = {1.0f, 0.0f, 0.0f, 0.0f, 
@@ -91,12 +79,9 @@ float proj_array[16] = {1.0f, 0.0f, 0.0f, 0.0f,
 glm::mat4 proj_mat = glm::make_mat4(proj_array);
 ```
 
-
 Ao executar temos o resultado:
 
-
 ![Proj](https://github.com/Shanksir/CG/blob/master/Pipeline/images/Proj.png)
-
 
 ### Posição da Câmera
 
@@ -157,3 +142,66 @@ glm::mat4 view_mat = glm::make_mat4(Bt_array) * glm::make_mat4(T_array);
 Ao executar temos o resultado:
 
 ![CamPos](https://github.com/Shanksir/CG/blob/master/Pipeline/images/CamPos.png)
+
+### Transformações Livres
+
+Neste exercício, foram adicionados dois triângulos:
+
+```C++
+float vertices[] = {-0.25f, -0.5f, -0.1f, 0.75f, 0.0f, 0.0f, // red triangle (closer)
+                     0.25f,  0.5f, -0.1f, 0.75f, 0.0f, 0.0f,
+                     0.75f, -0.5f, -0.1f, 0.75f, 0.0f, 0.0f,
+                    -0.75f, -0.5f, -0.4f, 0.0f, 0.0f, 0.75f, // blue triangle (farther)
+                    -0.25f,  0.5f, -0.4f, 0.0f, 0.0f, 0.75f,
+                     0.25f, -0.5f, -0.4f, 0.0f, 0.0f, 0.75f,
+                     0.25f, -0.5f, -0.8f, 0.0f, 0.75f, 0.0f, // green triangle
+                     0.75f,  0.5f, -0.8f, 0.0f, 0.75f, 0.0f,
+                     1.25f, -0.5f, -0.8f, 0.0f, 0.75f, 0.0f,
+                    -1.75f, -0.5f, -0.6f, 0.75f, 0.57f, 0.0f,// yellow triangle
+                    -1.25f,  0.5f, -0.6f, 0.75f, 0.57f, 0.0f,
+                    -0.75f, -0.5f, -0.6f, 0.75f, 0.57f, 0.0f};
+```
+As transformações utilizadas foram:
+
+- Escala em **(0.5, 0.5, 0.5)**
+- Rotação de **180°** em torno do eixo **Z**
+- Translação em **(-0.25, 0.5, 0)** 
+- Rotação de **30°** em torno do eixo **Y**
+
+```C++
+float scale_array[16] = {0.5f, 0.0f, 0.0f, 0.0f,
+                         0.0f, 0.5f, 0.0f, 0.0f,
+                         0.0f, 0.0f, 0.5f, 0.0f,
+                         0.0f, 0.0f, 0.0f, 1.0f};
+
+float trans_array[16] = {1.0f,  0.0f, 0.0f,  0.0f,
+                         0.0f,  1.0f, 0.0f,  0.0f,
+                         0.0f,  0.0f, 1.0f,  0.0f,
+                       -0.25f,  0.5f, 0.0f,  1.0f};
+
+// Rotation about Z axis
+float zangle = glm::pi<float>();
+float rotz_array[16] = {glm::cos(zangle), glm::sin(zangle), 0.0f, 0.0f,
+                       -glm::sin(zangle), glm::cos(zangle), 0.0f, 0.0f,
+                                    0.0f,             0.0f, 1.0f, 0.0f,
+                                    0.0f,             0.0f, 0.0f, 1.0f};
+
+  // Rotation about Y axis
+float yangle = glm::pi<float>()/6;
+float roty_array[16] = {glm::cos(yangle), 0.0f, -glm::sin(yangle), 0.0f,
+                                    0.0f, 1.0f,              0.0f, 0.0f,
+                       -glm::sin(yangle), 0.0f,  glm::cos(yangle), 0.0f,
+                                    0.0f, 0.0f,              0.0f, 1.0f};
+
+glm::mat4 model_mat = glm::make_mat4(roty_array) * glm::make_mat4(trans_array) * glm::make_mat4(rotz_array) * glm::make_mat4(scale_array);
+```
+A câmera foi posicionada em **(0.05, 0.05, 0.2)** com fator de projeção **d = 0.8**.
+
+Ao executar temos o resultado:
+
+![FreeTrans](https://github.com/Shanksir/CG/blob/master/Pipeline/images/FreeTrans.png)
+
+## Referências
+
+- GLM API Documentation: https://glm.g-truc.net/0.9.9/api/index.html
+- Notas de Aula do Prof. Christian Pagot

@@ -84,6 +84,16 @@ void Display(void) {
                         	0.0f, 0.0f, 1.0f, 0.0f, 
                         	0.0f, 0.0f, 0.0f, 1.0f};
 
+    /*float scale_array[16] = {1.0f/3.0f, 0.0f, 0.0f, 0.0f,
+                                  0.0f, 1.5f, 0.0f, 0.0f,
+                                  0.0f, 0.0f, 1.0f, 0.0f,
+                                  0.0f, 0.0f, 0.0f, 1.0f};
+
+    float trans_array[16] = {1.0f, 0.0f, 0.0f, 0.0f,
+                             0.0f, 1.0f, 0.0f, 0.0f,
+                             0.0f, 0.0f, 1.0f, 0.0f,
+                             1.0f, 0.0f, 0.0f, 1.0f};*/
+
     float scale_array[16] = {0.5f, 0.0f, 0.0f, 0.0f,
 							 0.0f, 0.5f, 0.0f, 0.0f,
 							 0.0f, 0.0f, 0.5f, 0.0f,
@@ -101,6 +111,7 @@ void Display(void) {
 							 			0.0f, 			 0.0f, 1.0f, 0.0f,
 							 			0.0f,  			 0.0f, 0.0f, 1.0f};
 
+    // Rotation about Y axis
 	float yangle = glm::pi<float>()/6;
 	float roty_array[16] = {glm::cos(yangle), 0.0f, -glm::sin(yangle), 0.0f,
 						                0.0f, 1.0f, 			 0.0f, 0.0f,
