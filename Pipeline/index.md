@@ -20,13 +20,16 @@ Compilando o código template disponibilizado, é exibido:
 
 ![Template](https://github.com/Shanksir/CG/blob/master/Pipeline/images/Template.png)
 
+
 ### Escala
 
 Para aplicar a escala com fatores **(x, y, z) = (1/3, 3/2, 1)**, foi utilizada a matriz:
 
 ![ScaleMatrix](https://github.com/Shanksir/CG/blob/master/Pipeline/images/ScaleMatrix.png)
 
+
 Igualando a matriz **Model** à matriz de **Escala** para aplicar as transformações nos vértices.
+
 
 ```C++
 float scale_array[16] = {1.0f/3.0f, 0.0f, 0.0f, 0.0f,
@@ -37,9 +40,11 @@ float scale_array[16] = {1.0f/3.0f, 0.0f, 0.0f, 0.0f,
 glm::mat4 model_mat = glm::make_mat4(scale_array);
 ```
 
+
 Ao executar temos o resultado:
 
 ![Scale](https://github.com/Shanksir/CG/blob/master/Pipeline/images/Scale.png)
+
 
 ### Translação
 
@@ -47,7 +52,9 @@ Para aplicar a translação com fatores **(x, y, z) = (1, 0, 0)**, foi utilizada
 
 ![TransMatrix](https://github.com/Shanksir/CG/blob/master/Pipeline/images/TransMatrix.png)
 
+
 Igualando a matriz **Model** à matriz de **Translação** para aplicar as transformações nos vértices.
+
 
 ```C++
 float trans_array[16] = {1.0f, 0.0f, 0.0f, 0.0f,
@@ -60,15 +67,20 @@ glm::mat4 model_mat = glm::make_mat4(trans_array);
 
 Ao executar temos o resultado:
 
+
 ![Trans](https://github.com/Shanksir/CG/blob/master/Pipeline/images/Trans.png)
+
 
 ### Projeção
 
 Aplicando o fator de projeção **d = 0.5** na matriz **Projection**:
 
+
 ![ProjMatrix](https://github.com/Shanksir/CG/blob/master/Pipeline/images/ProjMatrix.png)
 
+
 Igualando à matriz de **Projeção**:
+
 
 ```C++
 float proj_array[16] = {1.0f, 0.0f, 0.0f, 0.0f, 
@@ -79,9 +91,12 @@ float proj_array[16] = {1.0f, 0.0f, 0.0f, 0.0f,
 glm::mat4 proj_mat = glm::make_mat4(proj_array);
 ```
 
+
 Ao executar temos o resultado:
 
+
 ![Proj](https://github.com/Shanksir/CG/blob/master/Pipeline/images/Proj.png)
+
 
 ### Posição da Câmera
 
