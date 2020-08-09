@@ -25,10 +25,10 @@ Onde **Ip** é a intensidade do ponto de luz, o **kd** é o coeficiente de refle
 ### Implementação
 
 ```C++
-    vec3 L = normalize(I_p_pos - (model_mat * vec4(obj_spc_vertex_pos, 1.0)).xyz);
-    vec3 N = normalize(mat3(transpose(inverse(model_mat))) * obj_spc_N);
+vec3 L = normalize(I_p_pos - (model_mat * vec4(obj_spc_vertex_pos, 1.0)).xyz);
+vec3 N = normalize(mat3(transpose(inverse(model_mat))) * obj_spc_N);
 
-    I = I_a * k_a + I_p * k_d * max(dot(L, N), 0.0f);
+I = I_a * k_a + I_p * k_d * max(dot(L, N), 0.0f);
 ```
 
 Foi utilizada a função **max** para que o resultado do cosseno fosse sempre maior ou igual à zero, retornando sempre o maior valor entre o produto interno e zero. Ao executar temos o resultado:
@@ -50,13 +50,13 @@ Onde o **Ip** é a intensidade do ponto de luz, o **ks** é o coeficiente de ref
 Utilizando da mesma propriedade do modelo difuso, a implementação fica:
 
 ```C++
-    vec3 L = normalize(I_p_pos - (model_mat * vec4(obj_spc_vertex_pos, 1.0)).xyz);
-    vec3 N = normalize(mat3(transpose(inverse(model_mat))) * obj_spc_N);
+vec3 L = normalize(I_p_pos - (model_mat * vec4(obj_spc_vertex_pos, 1.0)).xyz);
+vec3 N = normalize(mat3(transpose(inverse(model_mat))) * obj_spc_N);
 
-    vec3 R = -reflect (L, N);
-    vec3 V = normalize(cam_pos - (model_mat * vec4(obj_spc_vertex_pos, 1.0)).xyz);
+vec3 R = -reflect (L, N);
+vec3 V = normalize(cam_pos - (model_mat * vec4(obj_spc_vertex_pos, 1.0)).xyz);
 
-    I = I_a * k_a + I_p * (k_d * max(dot(L, N), 0.0f) + k_s * pow(max(dot(R, V), 0.0f), n));
+I = I_a * k_a + I_p * (k_d * max(dot(L, N), 0.0f) + k_s * pow(max(dot(R, V), 0.0f), n));
 ```
 
 Ao executar temos o resultado:
